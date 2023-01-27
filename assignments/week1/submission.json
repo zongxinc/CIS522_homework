@@ -2,13 +2,13 @@
     "assignment_name": "Assignment 1",
     "contributors": [
         {
-            "name": "Jordan Matelsky",
-            "pennkey": "matelsky"
+            "name": "Zongxin Cui",
+            "pennkey": "zongxinc"
         }
     ],
     "sources": [
-        "https://example.com",
-        "Conversations with TA (include TA's name)",
-        "LLM (include information about the LLM and how it was used)"
+        "https://medium.com/analytics-vidhya/multiple-linear-regression-from-scratch-using-only-numpy-98fc010a1926",
+        "https://euanrussano.github.io/20190810linearRegressionNumpy/",
+        "https://medium.com/@johnodonnell123/linear-regression-and-gradient-descent-in-numpy-309364866ab0"
     ]
 }
