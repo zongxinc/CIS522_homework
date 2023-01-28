@@ -116,6 +116,8 @@ class GradientDescentLinearRegression(LinearRegression):
             grad_w = -(1 / n) * np.dot(X.T, error)
             grad_b = -(1 / n) * np.sum(error)
 
+            
+
             self.w = self.w - lr * grad_w
             self.b = self.b - lr * grad_b
 
