@@ -28,7 +28,7 @@ class LinearRegression:
         sample_size = X.shape[0]
         X = np.append(X, np.ones((sample_size, 1)), axis=1)
         y = np.array(y).reshape(len(y), 1)
-        
+
         self.w = np.dot((np.linalg.inv(np.dot(X.T, X))), np.dot(X.T, y))
         return
 
@@ -51,6 +51,7 @@ class GradientDescentLinearRegression(LinearRegression):
     """
     A linear regression model that uses gradient descent to fit the model.
     """
+
     def grad(self, X: np.ndarray, y: np.ndarray, w: np.ndarray) -> np.ndarray:
         """
         Calculate the gradient.
@@ -66,7 +67,7 @@ class GradientDescentLinearRegression(LinearRegression):
         """
         n = len(X)
 
-        return 1/n * np.sum(np.dot((np.dot(X, w) - y.T), X), axis=1).reshape(-1, 1)
+        return 1 / n * np.sum(np.dot((np.dot(X, w) - y.T), X), axis=1).reshape(-1, 1)
 
     def MSE(self, y: np.ndarray, y_pred: np.ndarray) -> float:
         """
@@ -115,8 +116,6 @@ class GradientDescentLinearRegression(LinearRegression):
 
             grad_w = -(1 / n) * np.dot(X.T, error)
             grad_b = -(1 / n) * np.sum(error)
-
-            
 
             self.w = self.w - lr * grad_w
             self.b = self.b - lr * grad_b
