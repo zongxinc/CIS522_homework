@@ -4,8 +4,9 @@ import numpy as np
 class LinearRegression:
     """
     A linear regression model that do not use gradient descent to fit the model.
-    
+
     """
+
     w: np.ndarray
     b: float
 
