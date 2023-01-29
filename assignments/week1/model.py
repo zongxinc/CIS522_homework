@@ -1,6 +1,6 @@
 import numpy as np
 
-# Citation: https://medium.com/analytics-vidhya/multiple-linear-regression-from-scratch-using-only-numpy-98fc010a1926
+
 class LinearRegression:
     """
     A linear regression model that do not use gradient descent to fit the model.
