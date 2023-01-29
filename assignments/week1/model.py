@@ -4,8 +4,8 @@ import numpy as np
 class LinearRegression:
     """
     A linear regression model that do not use gradient descent to fit the model.
+    
     """
-
     w: np.ndarray
     b: float
 
@@ -101,10 +101,7 @@ class GradientDescentLinearRegression(LinearRegression):
         """
         self.w = np.zeros((X.shape[1], 1))
         n = len(X)
-        # X = np.concatenate([X, np.ones((X.shape[0], 1))], axis=1)
-        # self.w = np.concatenate([self.w, self.b.reshape(1, 1)], axis=0)
 
-        weight_history = [self.w]
         cost_history = [self.MSE(y, X @ self.w)]
 
         for epoch in range(epochs):
