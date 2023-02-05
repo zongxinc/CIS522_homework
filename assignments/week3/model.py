@@ -39,9 +39,16 @@ class MLP(torch.nn.Module):
         self.out = torch.nn.Linear(hidden_size, num_classes)
 
     def _init_weights(self, m):
-            if isinstance(m, torch.nn.Conv2d) or isinstance(m, torch.nn.Linear):
-                self.initializer(m.weight)
-                m.bias.data.fill_(0.01)
+        """weight initialization.
+
+        Arguments:
+            x: layer
+
+        Returns:
+        """
+        if isinstance(m, torch.nn.Conv2d) or isinstance(m, torch.nn.Linear):
+            self.initializer(m.weight)
+            m.bias.data.fill_(0.01)
 
     def forward(self, x):
         """
