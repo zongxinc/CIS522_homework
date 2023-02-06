@@ -3,6 +3,23 @@ import torch
 
 
 class MLP(torch.nn.Module):
+    """
+    A multi-layer perceptron model.
+
+    Attributes:
+        input_size (int): The dimension D of the input data.
+        hidden_size (int): The number of neurons H in the hidden layer.
+        num_classes (int): The number of classes C.
+        hidden_count (int): The number of hidden layers.
+        activation (Callable): The activation function to use in the hidden layer.
+        initializer (Callable): The initializer to use for the weights.
+        layers (torch.nn.ModuleList): The hidden layers.
+        out (torch.nn.Linear): The output layer.
+
+    Methods:
+        _init_weights: Weight initialization.
+        forward: Forward pass of the network.
+    """
     def __init__(
         self,
         input_size: int,
