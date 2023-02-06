@@ -20,6 +20,7 @@ class MLP(torch.nn.Module):
         _init_weights: Weight initialization.
         forward: Forward pass of the network.
     """
+
     def __init__(
         self,
         input_size: int,
