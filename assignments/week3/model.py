@@ -84,3 +84,4 @@ class MLP(torch.nn.Module):
 
         out = self.out(x)
         return out
+        
