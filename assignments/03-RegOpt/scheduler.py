@@ -1,6 +1,5 @@
 from typing import List
 import warnings
-import math
 
 from torch.optim.lr_scheduler import _LRScheduler
 
@@ -53,10 +52,9 @@ class CustomLRScheduler(_LRScheduler):
                 "please use `get_last_lr()`.",
                 UserWarning,
             )
-
-        if self.last_epoch == 0:
+        if self.last_epoch < self.total_iters * 0.3:
             return [
-                group["lr"] * self.start_factor for group in self.optimizer.param_groups
+                0.001 for group in self.optimizer.param_groups
             ]
 
         if self.last_epoch > self.total_iters:
