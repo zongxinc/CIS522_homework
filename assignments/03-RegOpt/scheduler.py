@@ -53,9 +53,7 @@ class CustomLRScheduler(_LRScheduler):
                 UserWarning,
             )
         if self.last_epoch < self.total_iters * 0.3:
-            return [
-                0.001 for group in self.optimizer.param_groups
-            ]
+            return [0.001 for group in self.optimizer.param_groups]
 
         if self.last_epoch > self.total_iters:
             return [group["lr"] for group in self.optimizer.param_groups]
