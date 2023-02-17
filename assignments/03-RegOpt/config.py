@@ -6,15 +6,15 @@ from torchvision.transforms import Compose, ToTensor
 
 
 class CONFIG:
-    batch_size = 32
+    batch_size = 64
     num_epochs = 10
-    initial_learning_rate = 0.002
-    initial_weight_decay = 0
+    initial_learning_rate = 0.005
+    initial_weight_decay = 0.0001
 
     lrs_kwargs = {
         # You can pass arguments to the learning rate scheduler
         # constructor here.
-        "T_max": num_epochs,
+        "total_iters": num_epochs
     }
 
     optimizer_factory: Callable[

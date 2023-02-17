@@ -10,7 +10,14 @@ class CustomLRScheduler(_LRScheduler):
     A custom learning rate scheduler.
     """
 
-    def __init__(self, optimizer, T_max, eta_min=0, last_epoch=-1):
+    def __init__(
+        self,
+        optimizer,
+        start_factor=1.0 / 3,
+        end_factor=1.0,
+        total_iters=5,
+        last_epoch=-1,
+    ):
         """
         Create a new scheduler.
 
@@ -18,9 +25,19 @@ class CustomLRScheduler(_LRScheduler):
         if you need to add new parameters.
 
         """
-        self.T_max = T_max
-        self.eta_min = eta_min
+        if start_factor > 1.0 or start_factor < 0:
+            raise ValueError(
+                "Starting multiplicative factor expected to be between 0 and 1."
+            )
 
+        if end_factor > 1.0 or end_factor < 0:
+            raise ValueError(
+                "Ending multiplicative factor expected to be between 0 and 1."
+            )
+
+        self.start_factor = start_factor
+        self.end_factor = end_factor
+        self.total_iters = total_iters
         super(CustomLRScheduler, self).__init__(optimizer, last_epoch)
 
     def get_lr(self) -> List[float]:
@@ -38,26 +55,23 @@ class CustomLRScheduler(_LRScheduler):
             )
 
         if self.last_epoch == 0:
+            return [
+                group["lr"] * self.start_factor for group in self.optimizer.param_groups
+            ]
+
+        if self.last_epoch > self.total_iters:
             return [group["lr"] for group in self.optimizer.param_groups]
-        elif self._step_count == 1 and self.last_epoch > 0:
-            return [
-                self.eta_min
-                + (base_lr - self.eta_min)
-                * (1 + math.cos((self.last_epoch) * math.pi / self.T_max))
-                / 2
-                for base_lr, group in zip(self.base_lrs, self.optimizer.param_groups)
-            ]
-        elif (self.last_epoch - 1 - self.T_max) % (2 * self.T_max) == 0:
-            return [
-                group["lr"]
-                + (base_lr - self.eta_min) * (1 - math.cos(math.pi / self.T_max)) / 2
-                for base_lr, group in zip(self.base_lrs, self.optimizer.param_groups)
-            ]
+
         return [
-            (1 + math.cos(math.pi * self.last_epoch / self.T_max))
-            / (1 + math.cos(math.pi * (self.last_epoch - 1) / self.T_max))
-            * (group["lr"] - self.eta_min)
-            + self.eta_min
+            group["lr"]
+            * (
+                1.0
+                + (self.end_factor - self.start_factor)
+                / (
+                    self.total_iters * self.start_factor
+                    + (self.last_epoch - 1) * (self.end_factor - self.start_factor)
+                )
+            )
             for group in self.optimizer.param_groups
         ]
 
@@ -66,9 +80,12 @@ class CustomLRScheduler(_LRScheduler):
         Get the closed form learning rate.
         """
         return [
-            self.eta_min
-            + (base_lr - self.eta_min)
-            * (1 + math.cos(math.pi * self.last_epoch / self.T_max))
-            / 2
+            base_lr
+            * (
+                self.start_factor
+                + (self.end_factor - self.start_factor)
+                * min(self.total_iters, self.last_epoch)
+                / self.total_iters
+            )
             for base_lr in self.base_lrs
         ]
