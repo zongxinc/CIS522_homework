@@ -7,6 +7,7 @@ class Model(torch.nn.Module):
     """
     Convolutional Neural Network
     """
+
     def __init__(self, num_channels: int, num_classes: int) -> None:
         """
         Initialize parameters of ConvNet
