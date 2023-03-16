@@ -23,7 +23,7 @@ class Model(torch.nn.Module):
         self.conv1 = nn.Conv2d(num_channels, 8, kernel_size=3, padding=1)
         self.conv2 = nn.Conv2d(8, 16, kernel_size=3, padding=1)
         self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
-        self.fc1 = nn.Linear(16 * 16 * 16, 64)
+        self.fc1 = nn.Linear(8 * 32 * 32, 64)
         self.fc2 = nn.Linear(64, num_classes)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -39,9 +39,8 @@ class Model(torch.nn.Module):
             Output after passing x through Conv2d layer
         """
         x = F.relu(self.conv1(x))
-        x = self.pool(F.relu(self.conv2(x)))
-        # print(x.shape)
-        x = x.view(-1, 16 * 16 * 16)
+        # x = self.pool(F.relu(self.conv2(x)))
+        x = x.view(-1, 8 * 32 * 32)
         x = F.relu(self.fc1(x))
         x = self.fc2(x)
         return x
